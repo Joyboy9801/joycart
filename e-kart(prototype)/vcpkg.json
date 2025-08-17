@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-api",
+  "version-string": "1.0.0",
+  "dependencies": [
+    "crow",
+    "sqlpp11",
+    "jwt-cpp",
+    "boost-system",
+    "boost-filesystem",
+    "libpqxx"
+  ]
+}

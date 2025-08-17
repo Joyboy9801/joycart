@@ -1,0 +1,52 @@
+cmake_minimum_required(VERSION 3.15)
+project(ecommerce-api VERSION 1.0)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find required packages
+find_package(PkgConfig REQUIRED)
+find_package(Crow REQUIRED)
+find_package(SQLpp11 REQUIRED)
+find_package(JWT-CPP REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
+find_package(PostgreSQL REQUIRED)
+
+# Add source files
+set(SOURCES
+    src/main.cpp
+    src/routes.cpp
+    src/services.cpp
+    src/utils.cpp
+)
+
+# Add headers
+set(HEADERS
+    include/models.h
+    include/auth.h
+    include/middleware.h
+    include/config.h
+)
+
+# Create executable
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+# Include directories
+target_include_directories(${PROJECT_NAME} PUBLIC include)
+
+# Link libraries
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+    Crow::Crow
+    SQLpp11::SQLpp11
+    JWT-CPP::JWT-CPP
+    Boost::system
+    Boost::filesystem
+    PostgreSQL::PostgreSQL
+)
+
+# Install rules
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(FILES ${HEADERS} DESTINATION include)
+install(DIRECTORY static/ DESTINATION share/${PROJECT_NAME}/static)
+install(DIRECTORY templates/ DESTINATION share/${PROJECT_NAME}/templates)
